@@ -54,13 +54,25 @@ def display_puzzle(idx):
     root = tk.Tk()
     root.title(f"Sudoku Puzzle {idx + 1}")
 
-    label_quiz = tk.Label(root, text="Quiz", font=("Arial", 12, "bold"))
+    # Configure window size
+    window_width = 1700
+    window_height = 400
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x_coordinate = int((screen_width / 2) - (window_width / 2))
+    y_coordinate = int((screen_height / 2) - (window_height / 2))
+    root.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
+
+    # cell_width = 60
+    cell_font = ("Helvetica", 16)
+
+    label_quiz = tk.Label(root, text="Quiz", font=("Helvetica", 20, "bold"))
     label_quiz.grid(row=0, column=0, columnspan=9)
 
-    label_solution_model = tk.Label(root, text="Solution (Model)", font=("Arial", 12, "bold"))
+    label_solution_model = tk.Label(root, text="Solution (Model)", font=("Helvetica", 20, "bold"))
     label_solution_model.grid(row=0, column=10, columnspan=9)
 
-    label_solution_traditional = tk.Label(root, text="Solution (Traditional)", font=("Arial", 12, "bold"))
+    label_solution_traditional = tk.Label(root, text="Solution (Traditional)", font=("Helvetica", 20, "bold"))
     label_solution_traditional.grid(row=0, column=20, columnspan=9)
 
     separator1 = tk.Frame(root, bg='red', width=5)
@@ -77,7 +89,7 @@ def display_puzzle(idx):
 
     for n in range(9):
         for j in range(9):
-            entry_quiz = tk.Entry(root, width=4, justify='center')
+            entry_quiz = tk.Entry(root, width=4, justify='center', font=cell_font)
             entry_quiz.grid(row=n + 1, column=j, padx=2, pady=2)
             number = quiz_array[n][j]
             entry_quiz.insert(tk.END, 'x' if number == 0 else str(number))  # Replace 0's with 'x'
@@ -86,14 +98,14 @@ def display_puzzle(idx):
             else:
                 entry_quiz.config(state='readonly')
 
-            entry_solution_model = tk.Entry(root, width=4, justify='center')
+            entry_solution_model = tk.Entry(root, width=4, justify='center', font=cell_font)
             entry_solution_model.grid(row=n + 1, column=j + 10, padx=2, pady=2)
             number_model = solution_model[n][j]
             entry_solution_model.insert(tk.END, str(number_model))
             if number_model != 0 and number_model == quiz_array[n][j]:
                 entry_solution_model.config(state='readonly', foreground='red')  # Set matched numbers to red
 
-            entry_solution_traditional = tk.Entry(root, width=4, justify='center')
+            entry_solution_traditional = tk.Entry(root, width=4, justify='center', font=cell_font)
             entry_solution_traditional.grid(row=n + 1, column=j + 20, padx=2, pady=2)
             number_traditional = solution_traditional[n][j]
             entry_solution_traditional.insert(tk.END, str(number_traditional))
