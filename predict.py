@@ -28,19 +28,16 @@ with open(csv_file_path, 'r') as file:
         quizzes.append(quiz)
 
 # Display the quizzes read from the CSV file
-# for idx, quiz in enumerate(quizzes, start=1):
-#     print(f"Quiz {idx}: {quiz}")
+for idx, quiz in enumerate(quizzes, start=1):
+    print(f"Quiz {idx} (Before Solving):\n{np.array(list(quiz)).reshape(9, 9)}")
+
+    # Convert puzzles to the required format for prediction
+    def prepare_input(puzzle_str):
+        return string_to_array(puzzle_str).reshape(1, 81) / 9.0
 
 
-# Convert puzzles to the required format for prediction
-def prepare_input(puzzle_str):
-    return string_to_array(puzzle_str).reshape(1, 81) / 9.0
-
-
-# Predict solutions for each puzzle
-for puzzle in quizzes:
     # Prepare input
-    prepared_input = prepare_input(puzzle)
+    prepared_input = prepare_input(quiz)
 
     # Make prediction
     predicted_solution = model.predict(prepared_input)
@@ -49,4 +46,4 @@ for puzzle in quizzes:
     solution = np.argmax(predicted_solution, axis=2).reshape(9, 9) + 1
 
     # Print the solved Sudoku puzzle
-    print(f"Solved Puzzle:\n{solution}\n")
+    print(f"\nSolved Puzzle:\n{solution}\n")
