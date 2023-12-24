@@ -81,7 +81,7 @@ def display_puzzle(idx):
             entry_quiz.grid(row=n + 1, column=j, padx=2, pady=2)
             number = quiz_array[n][j]
             entry_quiz.insert(tk.END, 'x' if number == 0 else str(number))  # Replace 0's with 'x'
-            if number != 0 and number == solution_model[n][j] and number == solution_traditional[n][j]:
+            if number != 0 and number == solution_traditional[n][j]:
                 entry_quiz.config(state='readonly', foreground='red')  # Set matched numbers to red
             else:
                 entry_quiz.config(state='readonly')
