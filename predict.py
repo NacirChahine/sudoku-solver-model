@@ -29,7 +29,9 @@ with open(csv_file_path, 'r') as file:
 
 # Display the quizzes read from the CSV file
 for idx, quiz in enumerate(quizzes, start=1):
-    print(f"Quiz {idx} (Before Solving):\n{np.array(list(quiz)).reshape(9, 9)}")
+    quiz_array = np.array(list(map(int, list(quiz)))).reshape(9, 9)
+    print(f"Quiz {idx} (Before Solving):")
+    print(quiz_array)
 
     # Convert puzzles to the required format for prediction
     def prepare_input(puzzle_str):
