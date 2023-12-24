@@ -79,30 +79,26 @@ def display_puzzle(idx):
         for j in range(9):
             entry_quiz = tk.Entry(root, width=4, justify='center')
             entry_quiz.grid(row=n + 1, column=j, padx=2, pady=2)
-            number = str(quiz_array[n][j])
-            entry_quiz.insert(tk.END, 'x' if number == '0' else number)  # Replace '0's with 'x'
-            if number != '0' and number == str(solution_model[n][j]) and number == str(solution_traditional[n][j]):
+            number = quiz_array[n][j]
+            entry_quiz.insert(tk.END, 'x' if number == 0 else str(number))  # Replace 0's with 'x'
+            if number != 0 and number == solution_model[n][j] and number == solution_traditional[n][j]:
                 entry_quiz.config(state='readonly', foreground='red')  # Set matched numbers to red
             else:
                 entry_quiz.config(state='readonly')
 
             entry_solution_model = tk.Entry(root, width=4, justify='center')
             entry_solution_model.grid(row=n + 1, column=j + 10, padx=2, pady=2)
-            number_model = str(solution_model[n][j])
-            entry_solution_model.insert(tk.END, number_model)
-            if number_model != '0':
-                entry_solution_model.config(state='readonly')
-                if number_model == str(quiz_array[n][j]):
-                    entry_solution_model.config(foreground='red')  # Set matched numbers to red
+            number_model = solution_model[n][j]
+            entry_solution_model.insert(tk.END, str(number_model))
+            if number_model != 0 and number_model == quiz_array[n][j]:
+                entry_solution_model.config(state='readonly', foreground='red')  # Set matched numbers to red
 
             entry_solution_traditional = tk.Entry(root, width=4, justify='center')
             entry_solution_traditional.grid(row=n + 1, column=j + 20, padx=2, pady=2)
-            number_traditional = str(solution_traditional[n][j])
-            entry_solution_traditional.insert(tk.END, number_traditional)
-            if number_traditional != '0':
-                entry_solution_traditional.config(state='readonly')
-                if number_traditional == str(quiz_array[n][j]):
-                    entry_solution_traditional.config(foreground='red')  # Set matched numbers to red
+            number_traditional = solution_traditional[n][j]
+            entry_solution_traditional.insert(tk.END, str(number_traditional))
+            if number_traditional != 0 and number_traditional == quiz_array[n][j]:
+                entry_solution_traditional.config(state='readonly', foreground='red')  # Set matched numbers to red
 
     root.mainloop()
 
