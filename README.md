@@ -19,13 +19,17 @@ This repository contains an AI-powered Sudoku Solver built using TensorFlow. It 
 3. Training Process:
     - Put the `train.csv` file in the root directory of the project.
     - Run the `train.py` file to train the model.
+   ```bash
+    py train.py
+    ```
 
 ### Predicting Sudoku Puzzles
 
 1. After training, the model will be saved as `sudoku_solver_model.h5`.
 2. Use the `predict.py` file to solve Sudoku puzzles.
-3. Modify the `quizzes.csv` file to add Sudoku puzzles to solve.
-
+   ```bash
+    py predict.py
+    ```
 ## Sample Puzzles
 
 Check the `quizzes.csv` file to input Sudoku puzzles you want to solve using the trained model.
