@@ -1,0 +1,5 @@
+/venv
+/data
+/.idea
+train.csv
+sudoku_solver_model.h5
