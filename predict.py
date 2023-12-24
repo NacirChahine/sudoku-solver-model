@@ -1,3 +1,4 @@
+import tkinter as tk
 import numpy as np
 import csv
 import tensorflow as tf
@@ -27,25 +28,53 @@ with open(csv_file_path, 'r') as file:
         quiz = row[quiz_column_index]
         quizzes.append(quiz)
 
-# Display the quizzes read from the CSV file
-for idx, quiz in enumerate(quizzes, start=1):
-    quiz_array = np.array(list(map(int, list(quiz)))).reshape(9, 9)
-    print(f"Quiz {idx} (Before Solving):")
-    print(quiz_array)
 
-    # Convert puzzles to the required format for prediction
-    def prepare_input(puzzle_str):
-        return string_to_array(puzzle_str).reshape(1, 81) / 9.0
+def prepare_input(puzzle_str):
+    return string_to_array(puzzle_str).reshape(1, 81) / 9.0
 
 
-    # Prepare input
+def solve_puzzle(idx):
+    quiz = quizzes[idx]
     prepared_input = prepare_input(quiz)
-
-    # Make prediction
     predicted_solution = model.predict(prepared_input)
-
-    # Convert the predicted solution to the expected format
     solution = np.argmax(predicted_solution, axis=2).reshape(9, 9) + 1
+    return solution
 
-    # Print the solved Sudoku puzzle
-    print(f"\nSolved Puzzle:\n{solution}\n")
+
+def display_puzzle(idx):
+    quiz = quizzes[idx]
+    quiz_array = np.array(list(map(int, list(quiz)))).reshape(9, 9)
+    solved_puzzle = solve_puzzle(idx)
+
+    # Display the Sudoku puzzles and solutions using Tkinter
+    root = tk.Tk()
+    root.title(f"Sudoku Puzzle {idx + 1}")
+
+    label_quiz = tk.Label(root, text="Quiz", font=("Arial", 12, "bold"))
+    label_quiz.grid(row=0, column=0, columnspan=9)
+
+    label_solution = tk.Label(root, text="Solution", font=("Arial", 12, "bold"))
+    label_solution.grid(row=0, column=10, columnspan=9)
+
+    for i in range(9):
+        for j in range(9):
+            entry_quiz = tk.Entry(root, width=4)
+            entry_quiz.grid(row=i + 1, column=j, padx=2, pady=2)
+            entry_quiz.insert(tk.END, str(quiz_array[i][j]))
+            entry_quiz.config(state='readonly')
+
+            entry_solution = tk.Entry(root, width=4)
+            entry_solution.grid(row=i + 1, column=j + 10, padx=2, pady=2)
+            entry_solution.insert(tk.END, str(solved_puzzle[i][j]))
+            entry_solution.config(state='readonly')
+
+    for i in range(9):
+        color_frame = tk.Frame(root, width=10, height=20, bg="gray")
+        color_frame.grid(row=i + 1, column=9, padx=2, pady=2)
+
+    root.mainloop()
+
+
+# Display puzzles interactively
+for i in range(len(quizzes)):
+    display_puzzle(i)
