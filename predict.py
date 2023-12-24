@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd
+import csv
 import tensorflow as tf
 
 # Load the saved model
@@ -11,16 +11,30 @@ def string_to_array(s):
     return np.array(list(map(int, list(s))))
 
 
-# Sample Sudoku puzzles
-quizzes = [
-    '004300209005009001070060043006002087190007400050083000600000105003508690042910300',
-    '006000085104008000000403100900025300000030000002890004003501000000700906570000800',
-]
+# Initialize an empty list to store the quizzes
+quizzes = []
+
+# Path to the CSV file containing the quizzes
+csv_file_path = 'quizzes.csv'  # Replace this with the actual path to your CSV file
+
+# Read the quizzes from the CSV file
+with open(csv_file_path, 'r') as file:
+    csv_reader = csv.reader(file)
+    header = next(csv_reader)  # Skip the header row if it exists
+    quiz_column_index = header.index('quizzes')  # Find the index of 'quizzes' column
+
+    for row in csv_reader:
+        quiz = row[quiz_column_index]
+        quizzes.append(quiz)
+
+# Display the quizzes read from the CSV file
+# for idx, quiz in enumerate(quizzes, start=1):
+#     print(f"Quiz {idx}: {quiz}")
 
 
 # Convert puzzles to the required format for prediction
-def prepare_input(puzzle):
-    return string_to_array(puzzle).reshape(1, 81) / 9.0
+def prepare_input(puzzle_str):
+    return string_to_array(puzzle_str).reshape(1, 81) / 9.0
 
 
 # Predict solutions for each puzzle
