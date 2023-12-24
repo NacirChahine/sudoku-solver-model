@@ -2,6 +2,7 @@ import tkinter as tk
 import numpy as np
 import csv
 import tensorflow as tf
+from sudoku_solver import solve_sudoku
 
 # Load the saved model
 model = tf.keras.models.load_model('sudoku_solver_model.h5')
@@ -33,44 +34,63 @@ def prepare_input(puzzle_str):
     return string_to_array(puzzle_str).reshape(1, 81) / 9.0
 
 
-def solve_puzzle(idx):
-    quiz = quizzes[idx]
-    prepared_input = prepare_input(quiz)
+def solve_puzzle_with_model(idx):
+    this_quiz = quizzes[idx]
+    prepared_input = prepare_input(this_quiz)
     predicted_solution = model.predict(prepared_input)
     solution = np.argmax(predicted_solution, axis=2).reshape(9, 9) + 1
     return solution
 
 
-def display_puzzle(idx):
-    quiz = quizzes[idx]
-    quiz_array = np.array(list(map(int, list(quiz)))).reshape(9, 9)
-    solved_puzzle = solve_puzzle(idx)
+def solve_puzzle_traditional(idx):
+    this_quiz = quizzes[idx]
+    quiz_array = np.array(list(map(int, list(this_quiz)))).reshape(9, 9)
+    grid = quiz_array.tolist()
+    solve_sudoku(grid)
+    return np.array(grid)
 
-    # Display the Sudoku puzzles and solutions using Tkinter
+
+def display_puzzle(idx):
     root = tk.Tk()
     root.title(f"Sudoku Puzzle {idx + 1}")
 
     label_quiz = tk.Label(root, text="Quiz", font=("Arial", 12, "bold"))
     label_quiz.grid(row=0, column=0, columnspan=9)
 
-    label_solution = tk.Label(root, text="Solution", font=("Arial", 12, "bold"))
-    label_solution.grid(row=0, column=10, columnspan=9)
+    label_solution_model = tk.Label(root, text="Solution (Model)", font=("Arial", 12, "bold"))
+    label_solution_model.grid(row=0, column=10, columnspan=9)
 
-    for i in range(9):
+    label_solution_traditional = tk.Label(root, text="Solution (Traditional)", font=("Arial", 12, "bold"))
+    label_solution_traditional.grid(row=0, column=20, columnspan=9)
+
+    separator1 = tk.Frame(root, bg='red', width=5)
+    separator1.grid(row=0, column=9, rowspan=10, padx=5)
+
+    separator2 = tk.Frame(root, bg='blue', width=5)
+    separator2.grid(row=0, column=19, rowspan=10, padx=5)
+
+    this_quiz = quizzes[idx]
+    quiz_array = np.array(list(map(int, list(this_quiz)))).reshape(9, 9)
+
+    solution_model = solve_puzzle_with_model(idx)
+    solution_traditional = solve_puzzle_traditional(idx)
+
+    for n in range(9):
         for j in range(9):
             entry_quiz = tk.Entry(root, width=4)
-            entry_quiz.grid(row=i + 1, column=j, padx=2, pady=2)
-            entry_quiz.insert(tk.END, str(quiz_array[i][j]))
+            entry_quiz.grid(row=n + 1, column=j, padx=2, pady=2)
+            entry_quiz.insert(tk.END, str(quiz_array[n][j]))
             entry_quiz.config(state='readonly')
 
-            entry_solution = tk.Entry(root, width=4)
-            entry_solution.grid(row=i + 1, column=j + 10, padx=2, pady=2)
-            entry_solution.insert(tk.END, str(solved_puzzle[i][j]))
-            entry_solution.config(state='readonly')
+            entry_solution_model = tk.Entry(root, width=4)
+            entry_solution_model.grid(row=n + 1, column=j + 10, padx=2, pady=2)
+            entry_solution_model.insert(tk.END, str(solution_model[n][j]))
+            entry_solution_model.config(state='readonly')
 
-    for i in range(9):
-        color_frame = tk.Frame(root, width=10, height=20, bg="gray")
-        color_frame.grid(row=i + 1, column=9, padx=2, pady=2)
+            entry_solution_traditional = tk.Entry(root, width=4)
+            entry_solution_traditional.grid(row=n + 1, column=j + 20, padx=2, pady=2)
+            entry_solution_traditional.insert(tk.END, str(solution_traditional[n][j]))
+            entry_solution_traditional.config(state='readonly')
 
     root.mainloop()
 
