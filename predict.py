@@ -5,7 +5,7 @@ import tensorflow as tf
 from sudoku_solver import solve_sudoku
 
 # Load the saved model
-model = tf.keras.models.load_model('sudoku_solver_model.h5')
+model = tf.keras.models.load_model('sudoku_solver_model_updated.h5')
 
 
 # Function to convert string quiz to numpy array
