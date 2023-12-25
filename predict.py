@@ -96,7 +96,7 @@ def display_puzzle(idx):
             if number != 0 and number == solution_traditional[n][j]:
                 entry_quiz.config(state='readonly', foreground='red')  # Set matched numbers to red
             else:
-                entry_quiz.config(state='readonly')
+                entry_quiz.config(state='readonly', foreground='green')
 
             entry_solution_model = tk.Entry(root, width=4, justify='center', font=cell_font)
             entry_solution_model.grid(row=n + 1, column=j + 10, padx=2, pady=2)
@@ -104,6 +104,8 @@ def display_puzzle(idx):
             entry_solution_model.insert(tk.END, str(number_model))
             if number_model != 0 and number_model == quiz_array[n][j]:
                 entry_solution_model.config(state='readonly', foreground='red')  # Set matched numbers to red
+            else:
+                entry_solution_model.config(state='readonly', foreground='blue')
 
             entry_solution_traditional = tk.Entry(root, width=4, justify='center', font=cell_font)
             entry_solution_traditional.grid(row=n + 1, column=j + 20, padx=2, pady=2)
@@ -111,6 +113,8 @@ def display_puzzle(idx):
             entry_solution_traditional.insert(tk.END, str(number_traditional))
             if number_traditional != 0 and number_traditional == quiz_array[n][j]:
                 entry_solution_traditional.config(state='readonly', foreground='red')  # Set matched numbers to red
+            else:
+                entry_solution_traditional.config(state='readonly', foreground='blue')
 
     root.mainloop()
 
