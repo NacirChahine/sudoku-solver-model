@@ -9,7 +9,7 @@ This repository contains an AI-powered Sudoku Solver built using TensorFlow. It 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/sudoku-solver-model.git
+    git clone https://github.com/NacirChahine/sudoku-solver-model.git
     cd sudoku-solver-model
     ```
 

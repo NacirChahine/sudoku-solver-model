@@ -3,3 +3,4 @@
 /.idea
 train.csv
 sudoku_solver_model.h5
+sudoku_solver_model_updated.h5
