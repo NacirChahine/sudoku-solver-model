@@ -2,6 +2,9 @@
 
 This repository contains an AI-powered Sudoku Solver built using TensorFlow. It can solve Sudoku puzzles of varying difficulties using machine learning techniques.
 
+![Screenshot 2024-01-04 182824](https://github.com/NacirChahine/sudoku-solver-model/assets/120245923/f86c2818-7876-444a-9c5b-05f6407da38b)
+
+
 ## How to Use
 
 ### Training the Model
